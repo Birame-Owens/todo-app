@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
+import '../taches/ecran_modifier_tache.dart';
 import '../../fournisseurs/fournisseur_auth.dart';
 import '../../fournisseurs/fournisseur_taches.dart';
 import '../../fournisseurs/fournisseur_localisation.dart';

@@ -12,7 +12,7 @@ import 'fournisseurs/fournisseur_localisation.dart';
 // Import des écrans
 import 'ecrans/authentification/ecran_connexion.dart';
 import 'ecrans/accueil/ecran_accueil.dart';
-import 'ecrans/splash/ecran_splash.dart';
+
 
 // Import des services et utilitaires
 import 'services/service_stockage_local.dart';
