@@ -13,10 +13,8 @@ import 'fournisseurs/fournisseur_localisation.dart';
 import 'ecrans/authentification/ecran_connexion.dart';
 import 'ecrans/accueil/ecran_accueil.dart';
 
-
 // Import des services et utilitaires
 import 'services/service_stockage_local.dart';
-import 'utilitaires/constantes.dart';
 
 void main() async {
   // S'assurer que les widgets Flutter sont initialisés
@@ -101,7 +99,7 @@ class MonAppTodo extends StatelessWidget {
         // Thème de l'application
         theme: _creerThemeApplication(),
         darkTheme: _creerThemeSombre(),
-        themeMode: ThemeMode.system, // Suit le thème système
+        themeMode: ThemeMode.system,
         
         // Configuration des routes
         initialRoute: '/',
@@ -126,9 +124,10 @@ class MonAppTodo extends StatelessWidget {
           };
           
           return MediaQuery(
-            // Désactiver les animations si nécessaire pour les performances
             data: MediaQuery.of(context).copyWith(
-              textScaleFactor: MediaQuery.of(context).textScaleFactor.clamp(0.8, 1.2),
+              textScaler: TextScaler.linear(
+                MediaQuery.of(context).textScaleFactor.clamp(0.8, 1.2),
+              ),
             ),
             child: child!,
           );
@@ -140,24 +139,19 @@ class MonAppTodo extends StatelessWidget {
   // Création du thème principal de l'application
   ThemeData _creerThemeApplication() {
     const couleurPrimaire = Color(0xFF2196F3); // Bleu moderne
-    const couleurSecondaire = Color(0xFF03DAC6); // Cyan
     
     return ThemeData(
-      // Configuration de base
       useMaterial3: true,
       brightness: Brightness.light,
       
-      // Palette de couleurs
       colorScheme: ColorScheme.fromSeed(
         seedColor: couleurPrimaire,
         brightness: Brightness.light,
       ),
       
-      // Couleurs principales
       primarySwatch: Colors.blue,
       primaryColor: couleurPrimaire,
       
-      // Configuration de l'AppBar
       appBarTheme: const AppBarTheme(
         backgroundColor: couleurPrimaire,
         foregroundColor: Colors.white,
@@ -174,8 +168,7 @@ class MonAppTodo extends StatelessWidget {
         ),
       ),
       
-      // Configuration des cartes
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         elevation: 2,
         shadowColor: Colors.black.withOpacity(0.1),
         shape: RoundedRectangleBorder(
@@ -184,7 +177,6 @@ class MonAppTodo extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       ),
       
-      // Configuration des boutons élevés
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: couleurPrimaire,
@@ -201,7 +193,6 @@ class MonAppTodo extends StatelessWidget {
         ),
       ),
       
-      // Configuration des champs de texte
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -224,7 +215,6 @@ class MonAppTodo extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       ),
       
-      // Configuration du FloatingActionButton
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: couleurPrimaire,
         foregroundColor: Colors.white,
@@ -234,49 +224,6 @@ class MonAppTodo extends StatelessWidget {
         ),
       ),
       
-      // Configuration de la typography
-      textTheme: const TextTheme(
-        headlineLarge: TextStyle(
-          fontSize: 32,
-          fontWeight: FontWeight.bold,
-          color: Colors.black87,
-        ),
-        headlineMedium: TextStyle(
-          fontSize: 28,
-          fontWeight: FontWeight.bold,
-          color: Colors.black87,
-        ),
-        headlineSmall: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.w600,
-          color: Colors.black87,
-        ),
-        titleLarge: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: Colors.black87,
-        ),
-        titleMedium: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w500,
-          color: Colors.black87,
-        ),
-        bodyLarge: TextStyle(
-          fontSize: 16,
-          color: Colors.black87,
-        ),
-        bodyMedium: TextStyle(
-          fontSize: 14,
-          color: Colors.black87,
-        ),
-        labelLarge: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: Colors.black87,
-        ),
-      ),
-      
-      // Configuration des SnackBars
       snackBarTheme: SnackBarThemeData(
         backgroundColor: Colors.grey[800],
         contentTextStyle: const TextStyle(color: Colors.white),
@@ -284,11 +231,9 @@ class MonAppTodo extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         behavior: SnackBarBehavior.floating,
-        margin: const EdgeInsets.all(16),
       ),
       
-      // Configuration des Dialogs
-      dialogTheme: DialogTheme(
+      dialogTheme: DialogThemeData(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
@@ -296,7 +241,6 @@ class MonAppTodo extends StatelessWidget {
         backgroundColor: Colors.white,
       ),
       
-      // Configuration de la navigation bottom
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: Colors.white,
         selectedItemColor: couleurPrimaire,
@@ -309,7 +253,7 @@ class MonAppTodo extends StatelessWidget {
 
   // Création du thème sombre
   ThemeData _creerThemeSombre() {
-    const couleurPrimaire = Color(0xFF64B5F6); // Bleu plus clair pour le mode sombre
+    const couleurPrimaire = Color(0xFF64B5F6);
     
     return ThemeData(
       useMaterial3: true,
@@ -329,7 +273,7 @@ class MonAppTodo extends StatelessWidget {
         centerTitle: true,
       ),
       
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         elevation: 4,
         color: const Color(0xFF2D2D2D),
         shadowColor: Colors.black.withOpacity(0.3),
@@ -366,13 +310,10 @@ class _EcranPrincipalState extends State<EcranPrincipal> {
     _initialiserApplication();
   }
 
-  // Initialisation de l'application
   Future<void> _initialiserApplication() async {
-    // Petit délai pour afficher le splash screen
     await Future.delayed(const Duration(seconds: 1));
     
     if (mounted) {
-      // Initialiser l'authentification
       await context.read<FournisseurAuth>().initialiser();
     }
   }
@@ -381,12 +322,10 @@ class _EcranPrincipalState extends State<EcranPrincipal> {
   Widget build(BuildContext context) {
     return Consumer<FournisseurAuth>(
       builder: (context, authProvider, child) {
-        // Écran de chargement initial
         if (authProvider.chargement) {
           return const EcranSplash();
         }
 
-        // Afficher l'erreur si nécessaire
         if (authProvider.messageErreur != null) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (mounted) {
@@ -408,7 +347,6 @@ class _EcranPrincipalState extends State<EcranPrincipal> {
           });
         }
 
-        // Navigation basée sur l'état d'authentification
         if (authProvider.estConnecte && authProvider.utilisateurActuel != null) {
           return const EcranAccueil();
         } else {
@@ -431,7 +369,6 @@ class EcranSplash extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Logo de l'application
             Container(
               width: 120,
               height: 120,
@@ -455,7 +392,6 @@ class EcranSplash extends StatelessWidget {
             
             const SizedBox(height: 32),
             
-            // Nom de l'application
             const Text(
               'Todo App',
               style: TextStyle(
@@ -467,7 +403,6 @@ class EcranSplash extends StatelessWidget {
             
             const SizedBox(height: 8),
             
-            // Sous-titre
             const Text(
               'Master M1 2024-2025',
               style: TextStyle(
@@ -479,7 +414,6 @@ class EcranSplash extends StatelessWidget {
             
             const SizedBox(height: 48),
             
-            // Indicateur de chargement
             const SizedBox(
               width: 40,
               height: 40,
@@ -555,7 +489,7 @@ class EcranErreur404 extends StatelessWidget {
   }
 }
 
-// Widget d'erreur globale pour les erreurs de rendu
+// Widget d'erreur globale
 class EcranErreurGlobale extends StatelessWidget {
   final FlutterErrorDetails erreur;
 
@@ -599,7 +533,6 @@ class EcranErreurGlobale extends StatelessWidget {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                // Redémarrer l'application
                 if (context.mounted) {
                   Navigator.of(context).pushNamedAndRemoveUntil(
                     '/',
